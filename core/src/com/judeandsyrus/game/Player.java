@@ -4,43 +4,42 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.*;
 
 public class Player extends Entity
 {
-    private TextureAtlas ta;
     private float scale;
-    private Anim idleAnim;
+
+    /*
+    Wow they make animation hard asf to implement
+
+    im making my own
+     */
+
+    private String state;
+    private Anim runAnim;
 
     public Player(int x, int y)
     {
+        //Basic pos and stats
         this.x = x;
         this.y = y;
 
         hlth = 100;
-        spd = 5;
+        spd = 20;
 
         scale = 5;
-        time = 0f;
 
-        ta = new TextureAtlas("spritesheet.txt");
+        state = "run";
+        runAnim = new Anim(10, "player_run/spritesheet.txt", 3);
 
-        sprite = ta.createSprite("player_idle_f0");
+        currentAnim = runAnim;
+
+        sprite = runAnim.currentSprite();
         sprite.scale(scale);
-
-        idleAnim = new Anim(25);
-        for(int i = -1; i <= 2; i++)
-        {
-            idleAnim.add(ta.createSprite("player_idle_f" + i));
-        }
-
-        currentAnim = idleAnim;
     }
 
-    protected void checkForInput()
+    public void checkForInput()
     {
         //Check for input
         if(Gdx.input.isKeyPressed(ctrls.UP.key))
@@ -62,6 +61,8 @@ public class Player extends Entity
         {
             x += spd;
         }
+
+        sprite.setPosition((float) x, (float) y);
     }
 
     //Controls
@@ -80,19 +81,9 @@ public class Player extends Entity
         }
     }
 
-    //Reverse Bob the builder... bob the destroyer😈.. get it cause it's a- nvm
     @Override
     protected void finalize() throws Throwable
     {
-    try
-    {
-        ta.dispose();
-    }
 
-    catch(Exception e)
-    {
-        e.printStackTrace();
     }
-
-}
 }

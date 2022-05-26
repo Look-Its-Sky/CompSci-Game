@@ -2,6 +2,7 @@ package com.judeandsyrus.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,17 +23,15 @@ public class MyGdxGame extends ApplicationAdapter
 	private final int CAMERA_WIDTH = 800;
 	private final int CAMERA_HEIGHT = 600;
 
+	private int camX, camY;
+
 	private World world;
 
 	//Game
 	private int gameState;
-	private int boundOffsetX;
-	private int boundOffsetY;
 
 	//Player Stuff
 	private Player p;
-
-	private Sprite test;
 
 	@Override
 	public void create()
@@ -42,15 +41,11 @@ public class MyGdxGame extends ApplicationAdapter
 		viewport = new ExtendViewport(CAMERA_WIDTH, CAMERA_HEIGHT, cam);
 		cam.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		gameState = 1;
-
 		batch = new SpriteBatch();
-
 		p = new Player(100, 100);
 		world = new World(new Texture("background.png"));
 
-		boundOffsetX = 10;
-		boundOffsetY = 10;
+		gameState = 1;
 	}
 
 	@Override
@@ -101,10 +96,15 @@ public class MyGdxGame extends ApplicationAdapter
 		//If i have to explain this part stop reading and kindly leave :)
 		world.render(batch);
 		p.render(batch);
+		p.checkForInput();
 
 
 		//Camera Stuff
-		cam.position.set(p.returnX(), p.returnY(), 0);
+
+		if(p.returnX() - p.returnW() > world.returnX() && p.returnX() < world.returnW()) camX = p.returnX();
+		if(p.returnY() - p.returnH() > world.returnY() && p.returnY() < world.returnH()) camY = p.returnY();
+
+		cam.position.set(camX, camY, 0);
 		cam.update();
 	}
 }

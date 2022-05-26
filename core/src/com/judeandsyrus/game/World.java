@@ -6,39 +6,51 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class World extends Entity
 {
+    private Texture img;
     private float scale;
 
     public World(Texture t)
     {
-        scale = 10;
+        scale = 1;
         
         this.x = 0;
         this.y = 0;
+        this.w = 10000;
+        this.h = 10000;
 
-        sprite = new Sprite(t);
-        sprite.scale(scale);
+        img = t;
     }
 
-    public Sprite returnImg()
+    public Texture returnImg()
     {
-        return sprite;
+        return img;
     }
 
-    @Override 
+    /*
+    @Deprecated
+    @Override
     public int returnW()
     {
         return (int) (sprite.getWidth() * scale);
     }
 
-    @Override 
+    @Deprecated
+    @Override
     public int returnH()
     {
         return (int) (sprite.getHeight() * scale);
     }
+     */
 
     @Override
     public void render(SpriteBatch batch)
     {
-        sprite.draw(batch);
+        batch.draw(img, x, y, w, h);
+    }
+
+    @Override
+    protected void finalize()
+    {
+        img.dispose();
     }
 }
