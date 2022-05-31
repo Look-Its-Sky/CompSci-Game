@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.*;
 
 public class Player extends Entity
 {
-    private float scale;
 
     /*
     Wow they make animation hard asf to implement
@@ -19,6 +18,8 @@ public class Player extends Entity
     private String state;
     private Anim runAnim;
 
+    private boolean superSpeedToggle = false;
+
     public Player(int x, int y)
     {
         //Basic pos and stats
@@ -26,40 +27,58 @@ public class Player extends Entity
         this.y = y;
 
         hlth = 100;
-        spd = 20;
-
-        scale = 5;
+        spd = 3;
 
         state = "run";
         runAnim = new Anim(10, "player_run/spritesheet.txt", 3);
 
         currentAnim = runAnim;
-
         sprite = runAnim.currentSprite();
-        sprite.scale(scale);
+        sprite.setScale(scale);
     }
 
     public void checkForInput()
     {
+        int buttonsDown = 0;
+
         //Check for input
         if(Gdx.input.isKeyPressed(ctrls.UP.key))
         {
             y += spd;
+            buttonsDown++;
         }
 
         if(Gdx.input.isKeyPressed(ctrls.DOWN.key))
         {
             y -= spd;
+            buttonsDown++;
         }
 
         if(Gdx.input.isKeyPressed(ctrls.LEFT.key))
         {
             x -= spd;
+            buttonsDown++;
         }
 
         if(Gdx.input.isKeyPressed(ctrls.RIGHT.key))
         {
             x += spd;
+            buttonsDown++;
+        }
+
+        if(buttonsDown == 0)
+        {
+            currentAnim.reset();
+            currentAnim.pause();
+        }
+        else currentAnim.unpause();
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+        {
+            if(superSpeedToggle) spd = 3;
+            else spd = 20;
+
+            superSpeedToggle = !superSpeedToggle;
         }
 
         sprite.setPosition((float) x, (float) y);

@@ -15,8 +15,8 @@ public class World extends Entity
         
         this.x = 0;
         this.y = 0;
-        this.w = 10000;
-        this.h = 10000;
+        this.w = 3000;
+        this.h = 3000;
 
         img = t;
     }

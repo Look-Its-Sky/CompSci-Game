@@ -14,8 +14,9 @@ public class Anim
     private int count;
     private int speedCount;
     private int speed;
-
     public int h, w;
+
+    private boolean pause;
 
     public Anim(int speed, String path, int length)
     {
@@ -26,9 +27,11 @@ public class Anim
         w = 50;
         h = 50;
 
+        pause = false;
+
         arr = new ArrayList<Sprite>();
 
-        //Make a new TextureAtlas if fails... uh it shits itself and dies lmao... safely
+        //Make a new TextureAtlas if fails... uh it shits itself and dies lmao... safely tho
         try
         {
             ta = new TextureAtlas(path);
@@ -84,20 +87,38 @@ public class Anim
         count--;
     }
 
+    public void reset()
+    {
+        count = 0;
+    }
+
+    public void pause()
+    {
+        pause = true;
+    }
+
+    public void unpause()
+    {
+        pause = false;
+    }
+
     //This actually should work since it runs at 60fps and not like *cough* swing
     public Sprite currentSprite()
     {
-        speedCount++;
-
-        if(speedCount > speed)
+        if(!pause)
         {
-            speedCount = 0;
+            speedCount++;
 
-            if(count >= arr.size() - 1) count = 0;
-            else count++;
+            if(speedCount > speed)
+            {
+                speedCount = 0;
+
+                if(count >= arr.size() - 1) count = 0;
+                else count++;
+            }
+
+            arr.get(count).setScale(10,10);
         }
-
-        arr.get(count).setScale(10,10);
 
         return arr.get(count);
     }
