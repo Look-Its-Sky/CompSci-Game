@@ -15,8 +15,55 @@ public class Anim
     private int speedCount;
     private int speed;
     public int h, w;
-
+    private boolean interruptable, isDone;
     private boolean pause;
+
+    public Anim(int speed, String path, int length, boolean interruptable)
+    {
+        count = 0;
+        this.speed = speed;
+        speedCount = 0;
+
+        w = 50;
+        h = 50;
+
+        pause = false;
+        isDone = false;
+        this.interruptable = interruptable;
+
+        arr = new ArrayList<Sprite>();
+
+        //Make a new TextureAtlas if fails... uh it shits itself and dies lmao... safely tho
+        try
+        {
+            ta = new TextureAtlas(path);
+        }
+
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        /*
+        Basically all files follow this name convention
+
+        <path>
+            f0.png
+            f1.png
+            ..
+
+        <some other class in another object>
+            f0.png
+            f1.png
+            ..
+         */
+
+        for(int i = 0; i <= length - 1; i++)
+        {
+            arr.add(ta.createSprite("f" + i));
+        }
+    }
 
     public Anim(int speed, String path, int length)
     {
@@ -28,6 +75,8 @@ public class Anim
         h = 50;
 
         pause = false;
+        this.interruptable = true; //Assume interruptable by default
+        isDone = false;
 
         arr = new ArrayList<Sprite>();
 
@@ -90,6 +139,7 @@ public class Anim
     public void reset()
     {
         count = 0;
+        isDone = false;
     }
 
     public void pause()
@@ -113,7 +163,11 @@ public class Anim
             {
                 speedCount = 0;
 
-                if(count >= arr.size() - 1) count = 0;
+                if(count >= arr.size() - 1)
+                {
+                    count = 0;
+                    isDone = true;
+                }
                 else count++;
             }
 
@@ -121,6 +175,16 @@ public class Anim
         }
 
         return arr.get(count);
+    }
+
+    public boolean interruptable()
+    {
+        return interruptable;
+    }
+
+    public boolean done()
+    {
+        return isDone;
     }
 
     //Reverse Bob the builder... bob the destroyer😈.. get it cause it's a- nvm

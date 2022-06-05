@@ -2,11 +2,12 @@ package com.judeandsyrus.game;
 
 import java.lang.Math;
 
-public abstract class Enemy extends Entity
+public class Enemy extends Entity
 {
     public Enemy(int x, int y)
     {
-
+        this.x = x;
+        this.y = y;
     }
 
     public void move(Player p)
@@ -34,8 +35,17 @@ public abstract class Enemy extends Entity
         */
 
         //Find theoretical best x
-        if(xDist > absVal(this.x + spd - pX)) x += spd;
-        else if(xDist > absVal(this.x - spd - pX)) x -= spd;
+        if(xDist > absVal(this.x + spd - pX))
+        {
+            x += spd;
+            flip = false;
+        }
+
+        else if(xDist > absVal(this.x - spd - pX))
+        {
+            x -= spd;
+            flip = true;
+        }
 
         //Find theoretical best y
         if(yDist > absVal(this.y + spd - pY)) y += spd;

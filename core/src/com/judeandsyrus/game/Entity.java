@@ -7,6 +7,7 @@ public abstract class Entity
 {
     protected Anim currentAnim;
     protected Sprite sprite;
+    protected boolean flip;
     protected float time;
     protected float scale = 3;
     protected int x,y, w, h;
@@ -53,11 +54,25 @@ public abstract class Entity
         this.y = y;
     }
 
+    public void moveBy(int dx, int dy)
+    {
+        this.x += dx;
+        this.y += dy;
+    }
+
     public void render(SpriteBatch batch)
     {
         sprite = currentAnim.currentSprite();
         sprite.setPosition((float) x, (float) y);
         sprite.setScale(scale);
+        if(flip) sprite.setFlip(true, false);
+        else sprite.setFlip(false, false);
         sprite.draw(batch);
+    }
+
+    @Override
+    protected void finalize() throws Throwable
+    {
+        sprite.getTexture().dispose();
     }
 }
