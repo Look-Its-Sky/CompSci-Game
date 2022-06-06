@@ -17,7 +17,7 @@ public abstract class Entity
     {
         return x;
     }
-
+    public int returnhlth() { return hlth; }
     public int returnY()
     {
         return y;
