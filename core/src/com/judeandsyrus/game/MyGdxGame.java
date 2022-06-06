@@ -18,6 +18,13 @@ import com.badlogic.gdx.utils.viewport.*;
 import sun.font.TrueTypeFont;
 import java.util.ArrayList;
 import java.util.Random;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MyGdxGame extends ApplicationAdapter
 {
@@ -27,6 +34,8 @@ public class MyGdxGame extends ApplicationAdapter
 	private ExtendViewport viewport;
 	private ShapeRenderer sr;
 
+	int i=0;
+	Texture texture,texture2;
 	//Menu
 	private final String abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
 	private FreeTypeFontGenerator gen;
@@ -51,7 +60,11 @@ public class MyGdxGame extends ApplicationAdapter
 	@Override
 	public void create()
 	{
-		//Font
+		//Test
+		batch = new SpriteBatch();
+
+		initTestObjects();
+		// Font
 		gen = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Macondo-Regular.ttf"));
 		par = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		par.characters = abc;
@@ -88,7 +101,6 @@ public class MyGdxGame extends ApplicationAdapter
 	{
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
-
 		world.render(batch);
 
 		p.render(batch);
@@ -106,12 +118,44 @@ public class MyGdxGame extends ApplicationAdapter
 		cam.position.set(camX, camY, 0);
 		cam.update();
 	}
+	private void initTestObjects() {
 
+		int width =1 ;
+		int height = 1;
+		Pixmap pixmap = createProceduralPixmap(width, height,0,1,0);
+		Pixmap pixmap2 = createProceduralPixmap(width, height,1,0,0);
+
+		texture = new Texture(pixmap);
+		texture2 = new Texture(pixmap2);
+	}
+
+
+
+	private Pixmap createProceduralPixmap (int width, int height,int r,int g,int b) {
+		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
+
+		pixmap.setColor(r, g, b, 1);
+		pixmap.fill();
+
+		return pixmap;
+	}
 	@Override
 	public void render()
 	{
+		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		batch.begin();
 
+
+		batch.draw(texture2,100,100,300,20);
+		batch.draw(texture,100,100,i,20);
+		if(i>300)
+		{
+			i=0;
+		}
+		i++;
+
+		batch.end();
 		switch(gameState)
 		{
 			case 0:
@@ -125,8 +169,9 @@ public class MyGdxGame extends ApplicationAdapter
 				break;
 		}
 	}
-	
+
 	@Override
+
 	public void dispose()
 	{
 		gen.dispose();
