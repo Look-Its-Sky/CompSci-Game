@@ -142,7 +142,7 @@ public class MyGdxGame extends ApplicationAdapter
 	@Override
 	public void render()
 	{
-
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		switch(gameState)
 		{
 			case 0:
@@ -156,16 +156,9 @@ public class MyGdxGame extends ApplicationAdapter
 				break;
 		}
 		batch.begin();
-
-
-		batch.draw(texture2,100,100,300,20);
-		batch.draw(texture,100,100,i,20);
-		if(i>300)
-		{
-			i=0;
-		}
-		i++;
-
+		batch.draw(texture2,p.returnX()-30,p.returnY()-50,100,20);
+		batch.draw(texture,p.returnX()-3
+				0,p.returnY()-50,p.returnhlth(),20);
 		batch.end();
 	}
 
