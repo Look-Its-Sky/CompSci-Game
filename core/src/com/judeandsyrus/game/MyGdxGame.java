@@ -40,7 +40,7 @@ public class MyGdxGame extends ApplicationAdapter
 	private ShapeRenderer sr;
 	//Health Bar Shenanigans
 	int i=0;
-	Texture texture,texture2;
+	Texture texture,texture2, texture1;
 	//Server-sided stuff
 	private Socket  socket;
 	//Menu
@@ -94,7 +94,7 @@ public class MyGdxGame extends ApplicationAdapter
 		sr = new ShapeRenderer();
 
 		//Game stuff
-		gameState = 1;
+		gameState = 0;
 
 		//Server Shenanigans
 		connectSocket();
@@ -143,10 +143,11 @@ public class MyGdxGame extends ApplicationAdapter
 	}
 	public void menu_loop()
 	{
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) selectedItem--;
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) selectedItem++;
-
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && selectedItem == 0) gameState++; //Start game
+		texture1 = new Texture(Gdx.files.internal("Menu.png"));
+		batch.begin();
+		batch.draw(texture1, 0, 0); //550 is X and 380 is Y position.
+		batch.end();
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) gameState++; //Start game
 	}
 
 	public void game_loop()
@@ -161,7 +162,10 @@ public class MyGdxGame extends ApplicationAdapter
 		p.checkForInput();
 
 		batch.end();
-
+		batch.begin();
+		batch.draw(texture2,p.returnX()-30,p.returnY()-50,100,20);
+		batch.draw(texture,p.returnX()-30,p.returnY()-50,p.returnhlth(),20);
+		batch.end();
 		//Camera Stuff
 		if(p.returnX() - p.returnW() > world.returnX() + paddingX && p.returnX() < world.returnX() + world.returnW() - paddingX) camX = p.returnX();
 		if(p.returnY() - p.returnH() > world.returnY() + paddingY && p.returnY() < world.returnY() + world.returnH() - paddingY) camY = p.returnY();
@@ -210,13 +214,7 @@ public class MyGdxGame extends ApplicationAdapter
 				game_loop();
 				break;
 		}
-		batch.begin();
-		batch.draw(texture2,p.returnX()-30,p.returnY()-50,100,20);
-		batch.draw(texture,p.returnX()-30,p.returnY()-50,p.returnhlth(),20);
-		batch.end();
-		if(p2 != null){
-			p.render(batch);
-		}
+
 	}
 
 	@Override
