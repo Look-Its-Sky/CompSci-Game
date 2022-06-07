@@ -30,6 +30,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import java.util.HashMap;
 
 public class MyGdxGame extends ApplicationAdapter
 {
@@ -49,7 +50,7 @@ public class MyGdxGame extends ApplicationAdapter
 	private FreeTypeFontGenerator.FreeTypeFontParameter par;
 	private BitmapFont font;
 	private int selectedItem;
-
+	HashMap<String, Player> friendlyPlayers;
 
 	//Camera
 	private final int CAMERA_WIDTH = 800;
@@ -97,6 +98,7 @@ public class MyGdxGame extends ApplicationAdapter
 		gameState = 1;
 
 		//Server Shenanigans
+		friendlyPlayers = new HashMap<String, Player>();
 		connectSocket();
 		configSocketEvents();
 	}
@@ -111,6 +113,7 @@ public class MyGdxGame extends ApplicationAdapter
 	}
 	public void configSocketEvents() { //Server configurer
 		socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+
 			@java.lang.Override
 			public void call(java.lang.Object... args) {
 				Gdx.app.log("SocketIO", "Connected");
@@ -119,7 +122,6 @@ public class MyGdxGame extends ApplicationAdapter
 			@java.lang.Override
 			public void call(java.lang.Object... args) {
 				JSONObject data = (JSONObject) args[0];
-				p2 = new Player(250, 250);
 				try {
 					String id = data.getString("id");
 					Gdx.app.log("SocketIO", "My ID: " + id);
@@ -154,9 +156,12 @@ public class MyGdxGame extends ApplicationAdapter
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
 		world.render(batch);
+	if(p!=null) {
 
 		p.render(batch);
 		p.checkForInput();
+
+	}
 
 
 		batch.end();
@@ -211,9 +216,6 @@ public class MyGdxGame extends ApplicationAdapter
 		batch.draw(texture2,p.returnX()-30,p.returnY()-50,100,20);
 		batch.draw(texture,p.returnX()-30,p.returnY()-50,p.returnhlth(),20);
 		batch.end();
-		if(p2 != null){
-			p.render(batch);
-		}
 	}
 
 	@Override

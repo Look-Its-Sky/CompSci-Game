@@ -47,7 +47,6 @@ public abstract class Entity
     {
         return sprite;
     }
-
     public void move(int x, int y)
     {
         this.x = x;
