@@ -63,6 +63,7 @@ public class MyGdxGame extends ApplicationAdapter
 
 	//Player Stuff
 	private Player p;
+	private Player p2;
 
 	@Override
 	public void create()
@@ -129,6 +130,8 @@ public class MyGdxGame extends ApplicationAdapter
 			@java.lang.Override
 			public void call(java.lang.Object... args) {
 				JSONObject data = (JSONObject) args[0];
+				p2 = new Player(250, 250);
+				System.out.println("Hello there");
 				try {
 					String id = data.getString("id");
 					Gdx.app.log("SocketIO", "New Player Connected ID: " + id);
@@ -208,6 +211,9 @@ public class MyGdxGame extends ApplicationAdapter
 		batch.draw(texture2,p.returnX()-30,p.returnY()-50,100,20);
 		batch.draw(texture,p.returnX()-30,p.returnY()-50,p.returnhlth(),20);
 		batch.end();
+		if(p2 != null){
+			p.render(batch);
+		}
 	}
 
 	@Override
