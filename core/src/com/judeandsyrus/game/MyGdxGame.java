@@ -17,7 +17,6 @@ import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.*;
 import io.socket.emitter.Emitter;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import sun.font.TrueTypeFont;
@@ -154,23 +153,6 @@ public class MyGdxGame extends ApplicationAdapter
 							stringArrayList.remove(i);
 							playerArrayList.remove(i);
 						}
-					}
-					Gdx.app.log("SocketIO", "New Player Connected ID: " + id);
-				}catch(JSONException e) {
-					Gdx.app.log("SocketIO", "Error getting ID");
-				}
-			}
-		}).on("getPlayers", new Emitter.Listener() {
-			@java.lang.Override
-			public void call(java.lang.Object... args) {
-				JSONObject data = (JSONObject) args[0];
-				JSONArray objects = (JSONArray) args[0];
-				try {
-					String id = data.getString("id");
-					for(int i = 0; i <objects.length();i++)
-					{
-							stringArrayList.add(id);
-							playerArrayList.add(p2);
 					}
 					Gdx.app.log("SocketIO", "New Player Connected ID: " + id);
 				}catch(JSONException e) {
