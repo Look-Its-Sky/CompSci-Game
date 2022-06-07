@@ -225,6 +225,8 @@ public class Player extends Entity
             this.key = key;
         }
     }
+
+    /*
     public static boolean hasMoved(){
         if(previousPosition.x !=getX() || previousPosition.y != getY()){
             previousPosition.x = getX();
@@ -234,4 +236,5 @@ public class Player extends Entity
         return false;
     }
 
+     */
 }
