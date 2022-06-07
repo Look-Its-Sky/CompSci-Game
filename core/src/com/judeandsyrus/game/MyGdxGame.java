@@ -48,7 +48,8 @@ public class MyGdxGame extends ApplicationAdapter
 	private FreeTypeFontGenerator.FreeTypeFontParameter par;
 	private BitmapFont font;
 	private int selectedItem;
-	private ArrayList<Player> playerArrayList = new ArrayList<Player>();;
+	private ArrayList<Player> playerArrayList = new ArrayList<Player>();
+	private ArrayList<String> stringArrayList = new ArrayList<String>();
 	//Camera
 	private final int CAMERA_WIDTH = 800;
 	private final int CAMERA_HEIGHT = 600;
@@ -132,6 +133,18 @@ public class MyGdxGame extends ApplicationAdapter
 				JSONObject data = (JSONObject) args[0];
 				System.out.println("Hello there");
 				playerArrayList.add(p2);
+				try {
+					String id = data.getString("id");
+					Gdx.app.log("SocketIO", "New Player Connected ID: " + id);
+				}catch(JSONException e) {
+					Gdx.app.log("SocketIO", "Error getting ID");
+				}
+			}
+		}).on("playerDisconnected", new Emitter.Listener() {
+			@java.lang.Override
+			public void call(java.lang.Object... args) {
+				JSONObject data = (JSONObject) args[0];
+				System.out.println("Hello there");
 				try {
 					String id = data.getString("id");
 					Gdx.app.log("SocketIO", "New Player Connected ID: " + id);
