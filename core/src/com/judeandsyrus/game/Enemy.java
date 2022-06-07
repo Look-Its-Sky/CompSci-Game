@@ -64,4 +64,10 @@ public class Enemy extends Entity
         if(i < 0) return i * -1;
         return i;
     }
+
+    public boolean isDead()
+    {
+        if(hlth <= 0) return true;
+        else return false;
+    }
 }
