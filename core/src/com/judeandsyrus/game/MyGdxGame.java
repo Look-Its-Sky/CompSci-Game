@@ -33,6 +33,8 @@ import io.socket.client.Socket;
 public class MyGdxGame extends ApplicationAdapter
 {
 	//Everything Graphics
+	private final float UPDATE_TIME = 1/60f;
+	float timer;
 	private SpriteBatch batch;
 	private OrthographicCamera cam;
 	private ExtendViewport viewport;
@@ -160,6 +162,19 @@ public class MyGdxGame extends ApplicationAdapter
 				}
 			}
 		});
+	}
+	public void updateServer(float dt){
+		timer +=dt;
+		if(timer>= UPDATE_TIME && Player != null && Player.hasMoved()){
+			JSONObject data = new JSONObject();
+			try{
+				data.put("x", Player.getX());
+				data.put("y", Player.getY());
+				socket.emit("playerMoved", data);
+			}catch(JSONException e){
+				Gdx.app.log("SOCKET.IO", "Error sending update data");
+			}
+		}
 	}
 	public void menu_loop()
 	{

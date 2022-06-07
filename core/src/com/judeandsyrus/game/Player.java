@@ -225,7 +225,7 @@ public class Player extends Entity
             this.key = key;
         }
     }
-    public boolean hasMoved(){
+    public static boolean hasMoved(){
         if(previousPosition.x !=getX() || previousPosition.y != getY()){
             previousPosition.x = getX();
             previousPosition.y = getY();
