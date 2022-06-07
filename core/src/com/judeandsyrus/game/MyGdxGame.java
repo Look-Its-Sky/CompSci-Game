@@ -119,6 +119,7 @@ public class MyGdxGame extends ApplicationAdapter
 			@java.lang.Override
 			public void call(java.lang.Object... args) {
 				JSONObject data = (JSONObject) args[0];
+				p2 = new Player(250, 250);
 				try {
 					String id = data.getString("id");
 					Gdx.app.log("SocketIO", "My ID: " + id);
@@ -130,7 +131,6 @@ public class MyGdxGame extends ApplicationAdapter
 			@java.lang.Override
 			public void call(java.lang.Object... args) {
 				JSONObject data = (JSONObject) args[0];
-				p2 = new Player(250, 250);
 				System.out.println("Hello there");
 				try {
 					String id = data.getString("id");
