@@ -9,7 +9,7 @@ public class Enemy extends Entity
         this.x = x;
         this.y = y;
 
-
+        currentAnim = new Anim(5, "enemy/spritesheet.txt", 6);
     }
 
     public void move(Player p)

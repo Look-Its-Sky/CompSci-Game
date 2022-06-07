@@ -153,11 +153,12 @@ public class MyGdxGame extends ApplicationAdapter
 	{
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
+
+		world.update(p, CAMERA_WIDTH, CAMERA_HEIGHT);
 		world.render(batch);
 
 		p.render(batch);
 		p.checkForInput();
-
 
 		batch.end();
 
@@ -188,6 +189,8 @@ public class MyGdxGame extends ApplicationAdapter
 
 		pixmap.setColor(r, g, b, 1);
 		pixmap.fill();
+
+
 
 		return pixmap;
 	}
@@ -220,6 +223,8 @@ public class MyGdxGame extends ApplicationAdapter
 
 	public void dispose()
 	{
+		texture.dispose();
+		texture2.dispose();
 		gen.dispose();
 		batch.dispose();
 	}
