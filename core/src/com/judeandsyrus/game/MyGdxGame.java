@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.*;
 import io.socket.emitter.Emitter;
@@ -21,8 +22,6 @@ import org.json.JSONObject;
 import sun.font.TrueTypeFont;
 import java.util.ArrayList;
 import java.util.Random;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -30,7 +29,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import java.util.HashMap;
 
 public class MyGdxGame extends ApplicationAdapter
 {
@@ -50,8 +48,7 @@ public class MyGdxGame extends ApplicationAdapter
 	private FreeTypeFontGenerator.FreeTypeFontParameter par;
 	private BitmapFont font;
 	private int selectedItem;
-	HashMap<String, Player> friendlyPlayers;
-
+	private ArrayList<Player> playerArrayList = new ArrayList<Player>();;
 	//Camera
 	private final int CAMERA_WIDTH = 800;
 	private final int CAMERA_HEIGHT = 600;
@@ -91,14 +88,14 @@ public class MyGdxGame extends ApplicationAdapter
 		//Drawing
 		batch = new SpriteBatch();
 		p = new Player(250, 250);
+		p2 = new Player(250, 250);
 		world = new World(new Texture("background.png"));
 		sr = new ShapeRenderer();
-
 		//Game stuff
 		gameState = 1;
 
 		//Server Shenanigans
-		friendlyPlayers = new HashMap<String, Player>();
+
 		connectSocket();
 		configSocketEvents();
 	}
@@ -134,6 +131,7 @@ public class MyGdxGame extends ApplicationAdapter
 			public void call(java.lang.Object... args) {
 				JSONObject data = (JSONObject) args[0];
 				System.out.println("Hello there");
+				playerArrayList.add(p2);
 				try {
 					String id = data.getString("id");
 					Gdx.app.log("SocketIO", "New Player Connected ID: " + id);
@@ -156,12 +154,13 @@ public class MyGdxGame extends ApplicationAdapter
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
 		world.render(batch);
-	if(p!=null) {
-
 		p.render(batch);
 		p.checkForInput();
+		for(int i = 0; i <playerArrayList.size();i++)
+		{
+			playerArrayList.get(i).render(batch);
+		}
 
-	}
 
 
 		batch.end();
@@ -232,4 +231,5 @@ public class MyGdxGame extends ApplicationAdapter
 		batch.setProjectionMatrix(cam.combined);
 		viewport.update(width, height);
 	}
+
 }
