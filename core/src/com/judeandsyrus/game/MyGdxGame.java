@@ -95,7 +95,7 @@ public class MyGdxGame extends ApplicationAdapter
 		world = new World(new Texture("background.png"));
 		sr = new ShapeRenderer();
 		//Game stuff
-		gameState = 1;
+		gameState = 0;
 
 		//Server Shenanigans
 
