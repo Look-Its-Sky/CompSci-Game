@@ -47,7 +47,6 @@ public abstract class Entity
     {
         return sprite;
     }
-
     public void move(int x, int y)
     {
         this.x = x;
@@ -59,6 +58,15 @@ public abstract class Entity
         this.x += dx;
         this.y += dy;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+    
 
     public void render(SpriteBatch batch)
     {
