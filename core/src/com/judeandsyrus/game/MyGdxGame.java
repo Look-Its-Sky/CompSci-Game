@@ -185,7 +185,8 @@ public class MyGdxGame extends ApplicationAdapter
 			playerArrayList.get(i).render(batch);
 		}
 
-
+		batch.draw(texture2,p.returnX()-30,p.returnY()-50,100,20);
+		batch.draw(texture,p.returnX()-30,p.returnY()-50,p.returnhlth(),20);
 
 		batch.end();
 
@@ -235,10 +236,7 @@ public class MyGdxGame extends ApplicationAdapter
 				game_loop();
 				break;
 		}
-		batch.begin();
-		batch.draw(texture2,p.returnX()-30,p.returnY()-50,100,20);
-		batch.draw(texture,p.returnX()-30,p.returnY()-50,p.returnhlth(),20);
-		batch.end();
+
 	}
 
 	@Override
