@@ -120,6 +120,7 @@ public class MyGdxGame extends ApplicationAdapter
 			public void call(java.lang.Object... args) {
 				JSONObject data = (JSONObject) args[0];
 				try {
+					p2 = new Player(250, 250);
 					String id = data.getString("id");
 					Gdx.app.log("SocketIO", "My ID: " + id);
 				}catch(JSONException e) {
