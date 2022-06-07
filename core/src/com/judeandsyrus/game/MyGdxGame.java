@@ -119,8 +119,8 @@ public class MyGdxGame extends ApplicationAdapter
 			@java.lang.Override
 			public void call(java.lang.Object... args) {
 				JSONObject data = (JSONObject) args[0];
+				p2 = new Player(250, 250);
 				try {
-					p2 = new Player(250, 250);
 					String id = data.getString("id");
 					Gdx.app.log("SocketIO", "My ID: " + id);
 				}catch(JSONException e) {
