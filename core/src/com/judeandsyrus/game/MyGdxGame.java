@@ -41,7 +41,7 @@ public class MyGdxGame extends ApplicationAdapter
 	private ShapeRenderer sr;
 	//Health Bar Shenanigans
 	int i=0;
-	Texture texture,texture2;
+	Texture texture,texture2, texture1;
 	//Server-sided stuff
 	private Socket  socket;
 	//Menu
@@ -163,26 +163,15 @@ public class MyGdxGame extends ApplicationAdapter
 			}
 		});
 	}
-	public void updateServer(float dt){
-		timer +=dt;
-		if(timer>= UPDATE_TIME && Player != null && Player.hasMoved()){
-			JSONObject data = new JSONObject();
-			try{
-				data.put("x", Player.getX());
-				data.put("y", Player.getY());
-				socket.emit("playerMoved", data);
-			}catch(JSONException e){
-				Gdx.app.log("SOCKET.IO", "Error sending update data");
-			}
-		}
-	}
 	public void menu_loop()
 	{
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) selectedItem--;
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)) selectedItem++;
-
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && selectedItem == 0) gameState++; //Start game
+		texture1 = new Texture(Gdx.files.internal("Menu.png"));
+		batch.begin();
+		batch.draw(texture1, 0, 0); //550 is X and 380 is Y position.
+		batch.end();
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) gameState++; //Start game
 	}
+
 
 	public void game_loop()
 	{

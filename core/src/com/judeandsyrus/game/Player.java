@@ -225,13 +225,6 @@ public class Player extends Entity
             this.key = key;
         }
     }
-    public static boolean hasMoved(){
-        if(previousPosition.x !=getX() || previousPosition.y != getY()){
-            previousPosition.x = getX();
-            previousPosition.y = getY();
-            return true;
-        }
-        return false;
-    }
+
 
 }
