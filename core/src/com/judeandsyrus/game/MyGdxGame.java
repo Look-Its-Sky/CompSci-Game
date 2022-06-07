@@ -15,6 +15,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.*;
+import io.socket.emitter.Emitter;
+import org.json.JSONException;
+import org.json.JSONObject;
 import sun.font.TrueTypeFont;
 import java.util.ArrayList;
 import java.util.Random;
@@ -25,6 +28,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 
 public class MyGdxGame extends ApplicationAdapter
 {
@@ -33,9 +38,11 @@ public class MyGdxGame extends ApplicationAdapter
 	private OrthographicCamera cam;
 	private ExtendViewport viewport;
 	private ShapeRenderer sr;
-
+	//Health Bar Shenanigans
 	int i=0;
 	Texture texture,texture2;
+	//Server-sided stuff
+	private Socket  socket;
 	//Menu
 	private final String abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
 	private FreeTypeFontGenerator gen;
@@ -87,8 +94,50 @@ public class MyGdxGame extends ApplicationAdapter
 
 		//Game stuff
 		gameState = 1;
-	}
 
+		//Server Shenanigans
+		connectSocket();
+		configSocketEvents();
+	}
+	public void connectSocket() { //Server shenanigan known as connecting
+		try {
+			socket = IO.socket("http://141.148.142.190:6969");
+			socket.connect();
+			System.out.println("Server connected");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	public void configSocketEvents() { //Server configurer
+		socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+			@java.lang.Override
+			public void call(java.lang.Object... args) {
+				Gdx.app.log("SocketIO", "Connected");
+			}
+		}).on("socketID", new Emitter.Listener() {
+			@java.lang.Override
+			public void call(java.lang.Object... args) {
+				JSONObject data = (JSONObject) args[0];
+				try {
+					String id = data.getString("id");
+					Gdx.app.log("SocketIO", "My ID: " + id);
+				}catch(JSONException e) {
+					Gdx.app.log("SocketIO", "Error getting ID");
+				}
+			}
+		}).on("newPlayer", new Emitter.Listener() {
+			@java.lang.Override
+			public void call(java.lang.Object... args) {
+				JSONObject data = (JSONObject) args[0];
+				try {
+					String id = data.getString("id");
+					Gdx.app.log("SocketIO", "New Player Connected ID: " + id);
+				}catch(JSONException e) {
+					Gdx.app.log("SocketIO", "Error getting ID");
+				}
+			}
+		});
+	}
 	public void menu_loop()
 	{
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) selectedItem--;
@@ -157,8 +206,7 @@ public class MyGdxGame extends ApplicationAdapter
 		}
 		batch.begin();
 		batch.draw(texture2,p.returnX()-30,p.returnY()-50,100,20);
-		batch.draw(texture,p.returnX()-3
-				0,p.returnY()-50,p.returnhlth(),20);
+		batch.draw(texture,p.returnX()-30,p.returnY()-50,p.returnhlth(),20);
 		batch.end();
 	}
 
