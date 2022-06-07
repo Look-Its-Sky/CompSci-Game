@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Entity
 {
@@ -16,7 +17,7 @@ public class Player extends Entity
 
     im making my own
      */
-
+    //why
     private String state;
     private String prevState;
     private Anim runAnim, deathAnim, idle1Anim, idle2Anim,attack1Anim, attack2Anim, attack3Anim, attack4Anim;
@@ -27,6 +28,7 @@ public class Player extends Entity
     private int[] origin;
     private boolean isAtkUp, isAtkDown, isAtkLeft, isAtkRight;
 
+    Vector2 previousPosition = new Vector2(getX(),getY());
     public Player(int x, int y)
     {
         //Basic pos and stats

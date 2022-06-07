@@ -59,6 +59,14 @@ public abstract class Entity
         this.y += dy;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public void render(SpriteBatch batch)
     {
         sprite = currentAnim.currentSprite();
