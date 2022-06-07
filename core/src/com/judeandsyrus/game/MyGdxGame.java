@@ -156,7 +156,7 @@ public class MyGdxGame extends ApplicationAdapter
 							playerArrayList.remove(i);
 						}
 					}
-					Gdx.app.log("SocketIO", "New Player Connected ID: " + id);
+					Gdx.app.log("SocketIO", "New Player Left ID: " + id);
 				}catch(JSONException e) {
 					Gdx.app.log("SocketIO", "Error getting ID");
 				}
