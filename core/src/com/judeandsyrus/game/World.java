@@ -73,6 +73,11 @@ public class World extends Entity
         }
     }
 
+    public ArrayList<Enemy> enemies()
+    {
+        return enemies;
+    }
+
     @Override
     public void render(SpriteBatch batch)
     {

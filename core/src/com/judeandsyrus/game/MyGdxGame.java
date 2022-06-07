@@ -97,8 +97,9 @@ public class MyGdxGame extends ApplicationAdapter
 		gameState = 1;
 
 		//Server Shenanigans
-		connectSocket();
-		configSocketEvents();
+
+		//connectSocket();
+		//configSocketEvents();
 	}
 	public void connectSocket() { //Server shenanigan known as connecting
 		try {
@@ -153,7 +154,13 @@ public class MyGdxGame extends ApplicationAdapter
 	{
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
+
 		world.render(batch);
+
+		for(int i = 0; i < world.enemies().size(); i++)
+		{
+			world.enemies().get(i).render(batch);
+		}
 
 		p.render(batch);
 		p.checkForInput();
@@ -207,6 +214,7 @@ public class MyGdxGame extends ApplicationAdapter
 				game_loop();
 				break;
 		}
+
 		batch.begin();
 		batch.draw(texture2,p.returnX()-30,p.returnY()-50,100,20);
 		batch.draw(texture,p.returnX()-30,p.returnY()-50,p.returnhlth(),20);

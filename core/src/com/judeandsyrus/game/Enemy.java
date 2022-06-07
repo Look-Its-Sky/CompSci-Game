@@ -8,6 +8,8 @@ public class Enemy extends Entity
     {
         this.x = x;
         this.y = y;
+
+
     }
 
     public void move(Player p)
